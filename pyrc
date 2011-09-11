@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+import wx
+
+# Width / height will fit golden ratio
+# Server browser as well
+# Server Browser: 244
+# Main Chat Area: 396
+# Total Width: 640
+# Total Height: 396
+
+class PyRC(wx.Frame):
+    def __init__(self, parent, title):
+        super(PyRC, self).__init__(parent, title=title, size=(640,396))
+        self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        self.CreateStatusBar()
+
+        filemenu = wx.Menu()
+
+        menu_about = filemenu.Append(wx.ID_ABOUT,
+                "&About", "Information about this program")
+        filemenu.AppendSeparator()
+        menu_exit = filemenu.Append(wx.ID_EXIT,
+                "E&xit", "Terminate the program")
+
+        menubar = wx.MenuBar()
+        menubar.Append(filemenu, "&File")
+        self.SetMenuBar(menubar)
+
+        # Bind Menu Events
+        self.Bind(wx.EVT_MENU, self.on_about, menu_about)
+        self.Bind(wx.EVT_MENU, self.on_exit, menu_exit)
+
+        self.Show(True)
+
+    def on_about(self, e):
+        dialog = wx.MessageDialog(self, "A pythonic irc client", "About PyRC", wx.OK)
+        dialog.ShowModal()
+        dialog.Destroy()
+
+    def on_exit(self, e):
+        self.Close(True)
+
+app = wx.App(False)
+frame = PyRC(None, 'Small Editor')
+app.MainLoop()
